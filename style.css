@@ -44,7 +44,6 @@ body {
     text-align: center;
     z-index: 10;
     transition: transform 0.1s ease-out;
-    perspective: 1000px;
 }
 
 .icon-container {
@@ -54,13 +53,11 @@ body {
     border-radius: 4px;
     overflow: hidden;
     border: 2px solid rgba(255, 255, 255, 0.4);
-    transition: transform 0.1s ease-out, border-color 0.3s ease;
-    transform-style: preserve-3d;
-    will-change: transform;
+    transition: all 0.3s ease;
 }
 
 .icon-container:hover {
-    border-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05) rotate(2deg);
 }
 
 .icon-container img {

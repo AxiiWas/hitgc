@@ -162,25 +162,6 @@
             content.style.transform = `translate(${contentMoveX}px, ${contentMoveY}px)`;
         });
 
-        iconContainer.addEventListener('mousemove', (e) => {
-            const rect = iconContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-
-            const rotateX = (centerY - y) / 6;
-            const rotateY = (x - centerX) / 6;
-
-            iconContainer.style.transform = `scale(1.08) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-
-        iconContainer.addEventListener('mouseleave', () => {
-            iconContainer.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
-        });
-
 
         const genaiTrigger = document.getElementById('genai-trigger');
         const genaiWindow = document.getElementById('genai-window');
