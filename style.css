@@ -57,7 +57,7 @@ body {
 }
 
 .icon-container:hover {
-    transform: scale(1.05) rotate(2deg);
+    transform: scale(1.05);
 }
 
 .icon-container img {
@@ -76,7 +76,7 @@ h1 {
 p {
     color: rgba(255, 255, 255, 0.5);
     font-size: 1.1rem;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .join-btn {
@@ -402,4 +402,7 @@ footer:hover {
 .genai-input:focus {
     border-color: rgba(255, 255, 255, 0.3);
 }
+
+
+
 

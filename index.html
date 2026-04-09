@@ -18,7 +18,7 @@
         </div>
         <h1>hitgc</h1>
         <p>we all lowkey eat poop</p>
-        <a href="https://discord.gg/GZknXqG58U" class="join-btn">LET ME IN</a>
+
         <button id="rules-btn" class="rules-btn">rules</button>
         <button id="suggestion-btn" class="rules-btn">suggestions</button>
     </div>
@@ -181,11 +181,20 @@
                 genaiInput.value = '';
 
                 setTimeout(() => {
-                    const response = text.toLowerCase().includes('daddy') ? 'sorry' : 'turn 18" or grok';
+                    let response;
+                    if (text.toLowerCase().includes('daddy')) {
+                        response = 'sorry';
+                    } else if (text.toLowerCase().includes('listen to the voices')) {
+                        response = 'https://discord.gg/GZknXqG58U';
+                    } else {
+                        response = 'turn 18" or grok';
+                    }
                     appendMessage(response, 'bot');
                 }, 400);
             }
         };
+
+
 
         function appendMessage(text, side) {
             const msg = document.createElement('div');
@@ -194,6 +203,18 @@
             genaiMessages.appendChild(msg);
             genaiMessages.scrollTop = genaiMessages.scrollHeight;
         }
+
+        const bgAudio = document.createElement('audio');
+        bgAudio.id = 'bg-audio';
+        bgAudio.loop = true;
+        bgAudio.src = 'music/flow.mp4';
+        document.body.appendChild(bgAudio);
+
+        document.addEventListener('click', () => {
+            if (bgAudio.paused) {
+                bgAudio.play().catch(e => console.log('audio play blocked'));
+            }
+        }, { once: true });
     </script>
 </body>
 
