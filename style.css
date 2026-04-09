@@ -43,6 +43,7 @@ body {
     align-items: center;
     text-align: center;
     z-index: 10;
+    transition: transform 0.1s ease-out;
 }
 
 .icon-container {
@@ -401,6 +402,33 @@ footer:hover {
 .genai-input:focus {
     border-color: rgba(255, 255, 255, 0.3);
 }
+
+.mute-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 0.2;
+}
+
+.mute-btn:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
 
 
 
