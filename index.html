@@ -208,10 +208,11 @@
             genaiMessages.scrollTop = genaiMessages.scrollHeight;
         }
 
-        const bgAudio = document.createElement('audio');
+        const bgAudio = new Audio('music/flow.mp3');
         bgAudio.id = 'bg-audio';
         bgAudio.loop = true;
-        bgAudio.src = 'music/flow.mp3';
+        bgAudio.preload = 'auto';
+        bgAudio.load();
         document.body.appendChild(bgAudio);
 
         const muteBtn = document.getElementById('mute-btn');
@@ -220,16 +221,24 @@
         const unmutedSvg = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
         const mutedSvg = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
 
-        muteBtn.onclick = () => {
+        muteBtn.onclick = (e) => {
+            e.stopPropagation();
             bgAudio.muted = !bgAudio.muted;
             speakerIcon.innerHTML = bgAudio.muted ? mutedSvg : unmutedSvg;
         };
 
-        document.addEventListener('click', () => {
+        const startAudio = () => {
             if (bgAudio.paused) {
-                bgAudio.play().catch(e => console.log('audio play blocked'));
+                bgAudio.play().catch(() => {});
+                ['click', 'mousedown', 'keydown', 'touchstart'].forEach(type => {
+                    document.removeEventListener(type, startAudio);
+                });
             }
-        }, { once: true });
+        };
+
+        ['click', 'mousedown', 'keydown', 'touchstart'].forEach(type => {
+            document.addEventListener(type, startAudio);
+        });
     </script>
 </body>
 
