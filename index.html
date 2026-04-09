@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hitgc</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="parallax-bg"></div>
+
+    <div class="content">
+        <div class="icon-container">
+            <img src="assets/icon.png" alt="hitgc icon">
+        </div>
+        <h1>hitgc</h1>
+        <p>we all lowkey eat poop</p>
+        <a href="https://discord.gg/GZknXqG58U" class="join-btn">LET ME IN</a>
+        <button id="rules-btn" class="rules-btn">rules</button>
+        <button id="suggestion-btn" class="rules-btn">suggestions</button>
+    </div>
+
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>server rules follow these if you dont suck</h2>
+            <div class="rules-list">
+                <p>- must be subscribed to axelhere on youtube</p>
+                <p>- use common sense</p>
+                <p>- dont be a dickhead, no pornography, dont spam racial slurs and no holding hands thats gay</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="suggestion-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-suggestion">&times;</span>
+            <h2>server suggestions please dont spam</h2>
+            <form id="suggestion-form">
+                <div class="input-group">
+                    <label for="name">ur name</label>
+                    <input type="text" id="name" required placeholder="whats ur name">
+                </div>
+                <div class="input-group">
+                    <label for="suggestion">suggestion</label>
+                    <textarea id="suggestion" required placeholder="what do u want"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submit-suggestion">send</button>
+                <div class="modal-sub-text">subscribe to @axelhere on youtube</div>
+                <p id="form-status" class="status-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <img src="assets/pfp.png" alt="axel">
+            <span>made with <3 by axel</span>
+        </div>
+    </footer>
+
+    <div class="genai-trigger" id="genai-trigger">
+        <img src="assets/genai.png" alt="genai">
+    </div>
+
+    <div class="genai-window" id="genai-window">
+        <div class="genai-header">
+            <span>genai</span>
+            <span style="cursor: pointer"
+                onclick="document.getElementById('genai-window').style.display = 'none'">&times;</span>
+        </div>
+        <div class="genai-messages" id="genai-messages">
+            <div class="message bot">turn 18" or grok</div>
+        </div>
+        <div class="genai-input-area">
+            <input type="text" class="genai-input" id="genai-input" placeholder="say something" autocomplete="off">
+        </div>
+    </div>
+
+    <script>
+        const rulesBtn = document.getElementById('rules-btn');
+        const rulesModal = document.getElementById('rules-modal');
+        const closeModal = document.querySelector('.close-modal');
+
+        const suggestionBtn = document.getElementById('suggestion-btn');
+        const suggestionModal = document.getElementById('suggestion-modal');
+        const closeSuggestion = document.querySelector('.close-suggestion');
+        const suggestionForm = document.getElementById('suggestion-form');
+        const formStatus = document.getElementById('form-status');
+
+        rulesBtn.onclick = () => rulesModal.style.display = 'flex';
+        closeModal.onclick = () => rulesModal.style.display = 'none';
+
+        suggestionBtn.onclick = () => suggestionModal.style.display = 'flex';
+        closeSuggestion.onclick = () => suggestionModal.style.display = 'none';
+
+        window.onclick = (e) => {
+            if (e.target == rulesModal) rulesModal.style.display = 'none';
+            if (e.target == suggestionModal) suggestionModal.style.display = 'none';
+        }
+
+        suggestionForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const suggestion = document.getElementById('suggestion').value;
+            const webhookUrl = 'https://discord.com/api/webhooks/1491676172147359754/MnekjhQfTtUYvZMrNFzID0LkcpusRRTxLKJo3EvJqaH-acTnwRXc6tpzQqL3Q4W8cOz-';
+
+            formStatus.textContent = 'Sending...';
+            formStatus.style.color = '#ffffff';
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: 'New Suggestion',
+                            color: 0xffffff,
+                            fields: [
+                                { name: 'User', value: name, inline: true },
+                                { name: 'Suggestion', value: suggestion }
+                            ],
+                            timestamp: new Date().toISOString()
+                        }]
+                    })
+                });
+
+                if (response.ok) {
+                    formStatus.textContent = 'Suggestion sent successfully!';
+                    formStatus.style.color = '#43b581';
+                    suggestionForm.reset();
+                    setTimeout(() => {
+                        suggestionModal.style.display = 'none';
+                        formStatus.textContent = '';
+                    }, 2000);
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                formStatus.textContent = 'Failed to send. Try again.';
+                formStatus.style.color = '#f04747';
+            }
+        };
+
+        const bg = document.getElementById('parallax-bg');
+        const content = document.querySelector('.content');
+        const iconContainer = document.querySelector('.icon-container');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            const bgMoveX = (x - 0.5) * 50;
+            const bgMoveY = (y - 0.5) * 50;
+            bg.style.transform = `translate(${bgMoveX}px, ${bgMoveY}px)`;
+
+            const contentMoveX = (x - 0.5) * -30;
+            const contentMoveY = (y - 0.5) * -30;
+            content.style.transform = `translate(${contentMoveX}px, ${contentMoveY}px)`;
+        });
+
+        iconContainer.addEventListener('mousemove', (e) => {
+            const rect = iconContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+
+            const rotateX = (centerY - y) / 6;
+            const rotateY = (x - centerX) / 6;
+
+            iconContainer.style.transform = `scale(1.08) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        iconContainer.addEventListener('mouseleave', () => {
+            iconContainer.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
+        });
+
+
+        const genaiTrigger = document.getElementById('genai-trigger');
+        const genaiWindow = document.getElementById('genai-window');
+        const genaiInput = document.getElementById('genai-input');
+        const genaiMessages = document.getElementById('genai-messages');
+
+        genaiTrigger.onclick = () => {
+            const isVisible = genaiWindow.style.display === 'flex';
+            genaiWindow.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) genaiInput.focus();
+        };
+
+        genaiInput.onkeypress = (e) => {
+            if (e.key === 'Enter' && genaiInput.value.trim() !== '') {
+                const text = genaiInput.value.trim();
+                appendMessage(text, 'user');
+                genaiInput.value = '';
+
+                setTimeout(() => {
+                    const response = text.toLowerCase().includes('daddy') ? 'sorry' : 'turn 18" or grok';
+                    appendMessage(response, 'bot');
+                }, 400);
+            }
+        };
+
+        function appendMessage(text, side) {
+            const msg = document.createElement('div');
+            msg.className = `message ${side}`;
+            msg.textContent = text;
+            genaiMessages.appendChild(msg);
+            genaiMessages.scrollTop = genaiMessages.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>
